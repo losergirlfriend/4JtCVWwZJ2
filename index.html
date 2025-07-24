@@ -36,16 +36,31 @@
 <body>
   <h1>The Rumors Are True</h1>
 
-  <div class="soundcloud-player">
-    <iframe 
-      width="100%" 
-      height="166" 
-      scrolling="no" 
-      frameborder="no" 
-      allow="autoplay" 
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/schizomaxxer/hospital-the-rumors-are-true-bandiicam&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-    </iframe>
-  </div>
+<div class="soundcloud-player">
+  <iframe 
+    id="sc-player"
+    width="100%" 
+    height="80" 
+    scrolling="no" 
+    frameborder="no" 
+    allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/schizomaxxer/hospital-the-rumors-are-true-bandiicam&color=%23121212&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false">
+  </iframe>
+</div>
+
+<script>
+  // SoundCloud doesn't support true loop natively, so we simulate it
+  // Wait for the player to load and re-play when it ends
+  window.addEventListener("message", function(e) {
+    const message = e.data;
+    if (typeof message !== "string") return;
+
+    if (message.indexOf("ended") !== -1) {
+      const player = document.getElementById("sc-player").contentWindow;
+      player.postMessage(JSON.stringify({ method: "play" }), "*");
+    }
+  });
+</script>
 
   <div class="gallery">
     <img src="images/image1.jpg" alt="Image 1" />
